@@ -6,6 +6,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // async
   await MobileAds.instance.initialize(); // admob
 
+  await MobileAds.instance.updateRequestConfiguration(
+    RequestConfiguration(testDeviceIds: ["3618782AB97CA01DFCFB2908C48B2C3D"]) //
+  );
+
   runApp(const MyApp());
 }
 
