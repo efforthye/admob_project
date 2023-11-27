@@ -60,6 +60,9 @@ class _InlineBannerAdScreenState extends State<InlineBannerAdScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    for(int i = 0; i<allBannerAds.length; i++){
+      allBannerAds[i].dispose();
+    }
   }
 
   @override
@@ -68,6 +71,20 @@ class _InlineBannerAdScreenState extends State<InlineBannerAdScreen> {
       appBar: AppBar(
         title: const Text('Inline banner'),
         centerTitle: true,
+      ),
+      body: ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (context, index){
+          dynamic data = items[index];
+          if(data is SizedBox){
+            return data;
+          }else{
+            return ListTile(
+              leading: const Icon(Icons.photo),
+              title: Text(data.toString()),
+            );
+          }
+        },
       ),
     );
   }

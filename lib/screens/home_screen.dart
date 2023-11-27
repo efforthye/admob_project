@@ -1,4 +1,5 @@
 import 'package:admob_project/screens/bottom_banner_ad.dart';
+import 'package:admob_project/screens/inline_banner_ad.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,7 +21,13 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>const BottomBannerAdScreen()));
               },
               child: const Text('Bottom Banner Ads')
-            )
+            ),
+            ElevatedButton(
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const InlineBannerAdScreen()));
+                },
+                child: const Text('Inline Banner Ads')
+            ),
           ],
         ),
       ),
