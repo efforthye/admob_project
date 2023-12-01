@@ -11,4 +11,14 @@ class AdHelper {
       throw UnsupportedError('Unsupported Platform');
     }
   }
+
+  static String get interstitialAdUnitId{
+    if(Platform.isAndroid){
+      return 'ca-app-pub-5862202377198959/8748212389'; // real
+    }else if(Platform.isIOS){
+      return 'ca-app-pub-3940256099942544/4411468910'; // test : https://developers.google.com/admob/ios/test-ads?hl=ko
+    }else{
+      throw UnsupportedError('Unsupported Platform');
+    }
+  }
 }
