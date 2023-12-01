@@ -21,4 +21,15 @@ class AdHelper {
       throw UnsupportedError('Unsupported Platform');
     }
   }
+
+  static String get interstitialVideoAdUnitId{
+    if(Platform.isAndroid){
+      // return 'ca-app-pub-3940256099942544/8691691433'; // test : https://developers.google.com/admob/android/test-ads?hl=ko
+      return 'ca-app-pub-5862202377198959/8911863913'; // real
+    }else if(Platform.isIOS){
+      return 'ca-app-pub-3940256099942544/5135589807'; // test : https://developers.google.com/admob/ios/test-ads?hl=ko
+    }else{
+      throw UnsupportedError('Unsupported Platform');
+    }
+  }
 }

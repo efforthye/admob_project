@@ -13,6 +13,7 @@ class InterstitialAdScreen extends StatefulWidget {
 class _InterstitialAdScreenState extends State<InterstitialAdScreen> {
   late int score;
   InterstitialAd? _interstitialAd;
+  InterstitialAd? _interstitialVideoAd;
 
   void _loadInterstitialAd(){
     InterstitialAd.load(
@@ -37,6 +38,33 @@ class _InterstitialAdScreenState extends State<InterstitialAdScreen> {
     );
   }
 
+  void _loadInterstitialVideoAd(){
+    InterstitialAd.load(
+      adUnitId: AdHelper.interstitialVideoAdUnitId,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad){
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (InterstitialAd ad){
+              // Navigator.pop(context);
+              // ad.dispose();
+              getMyScore();
+              _interstitialAd = null; // Don't want to show ad again while going back
+              _interstitialVideoAd = null;
+              _loadInterstitialVideoAd(); // Assigning a new video ad jest incase the user play again
+            }
+          );
+          _interstitialVideoAd = ad;
+          print('Interstitial Video Ad Loaded');
+        },
+        onAdFailedToLoad: (LoadAdError error){
+          print('Faild to load an interstitial Video ad : ${error.message}');
+          _interstitialVideoAd = null;
+        }
+      )
+    );
+  }
+
   void getMyScore(){
     setState(() {
       score = Random().nextInt(51);
@@ -51,11 +79,20 @@ class _InterstitialAdScreenState extends State<InterstitialAdScreen> {
     }
   }
 
+  void onPlayAgainPressed(){
+    if(_interstitialVideoAd != null){
+      _interstitialVideoAd?.show();
+    }else{
+      getMyScore();
+    }
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     _interstitialAd?.dispose();
+    _interstitialVideoAd?.dispose();
   }
 
   @override
@@ -64,6 +101,7 @@ class _InterstitialAdScreenState extends State<InterstitialAdScreen> {
     super.initState();
     getMyScore();
     _loadInterstitialAd();
+    _loadInterstitialVideoAd();
   }
 
   @override
@@ -94,6 +132,14 @@ class _InterstitialAdScreenState extends State<InterstitialAdScreen> {
                   onBackPressed();
                 },
                 child: const Text('Go back')
+              ),
+              const SizedBox(height: 20,),
+              ElevatedButton.icon(
+                onPressed: (){
+                  onPlayAgainPressed();
+                },
+                icon: const Icon(Icons.video_call),
+                label: const Text('Play Again'),
               )
             ],
           ),
